@@ -545,7 +545,7 @@ func (r *ClusterReconciler) deleteEvictedOrUnscheduledInstances(ctx context.Cont
 			continue
 		}
 
-		if err := persistentvolumeclaim.DeleteInstancePVCs(
+		if err := persistentvolumeclaim.EnsureInstancePVCGroupIsDeleted(
 			ctx,
 			r.Client,
 			cluster,
