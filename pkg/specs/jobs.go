@@ -256,6 +256,7 @@ func createPrimaryJob(cluster apiv1.Cluster, nodeSerial int, role jobRole, initC
 					Labels: map[string]string{
 						utils.InstanceNameLabelName: instanceName,
 						utils.ClusterLabelName:      cluster.Name,
+						utils.JobRoleLabelName:      string(role),
 					},
 				},
 				Spec: corev1.PodSpec{
@@ -289,7 +290,6 @@ func createPrimaryJob(cluster apiv1.Cluster, nodeSerial int, role jobRole, initC
 		},
 	}
 
-	utils.LabelJobRole(&job.ObjectMeta, string(role))
 	cluster.SetInheritedDataAndOwnership(&job.ObjectMeta)
 	addManagerLoggingOptions(cluster, &job.Spec.Template.Spec.Containers[0])
 	if utils.IsAnnotationAppArmorPresent(cluster.Annotations) {
